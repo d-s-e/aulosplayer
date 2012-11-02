@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Aulosplayer {{ main_title }}</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/aulosplayer.css"/>
+	<script type="text/javascript" src="/static/scripts/ext/mootools.js"></script>
+	<script type="text/javascript" src="/static/scripts/ext/mootools-more.js"></script>
+	<script type="text/javascript" src="/static/scripts/aulosplayer.js"></script>
+</head>
+<body>
+	<div id="content">
+	{% block content %}{% endblock %}
+	</div>
+	<div id="footer">
+	{% block footer %}
+	<div class="left">Aulosplayer</div>
+	<div class="right">&copy; 2012 by d.s.e</div>
+	{% endblock %}
+    </div>
+</body>
+</html>
+

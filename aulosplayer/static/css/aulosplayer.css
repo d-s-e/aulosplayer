@@ -1,0 +1,186 @@
+/*
+ -----------------------
+ -  Aulosplayer CSS    -
+ -  (c) 2012 by d.s.e  -
+ -----------------------
+*/
+
+body {
+	background:#222222;
+	color:#f1f1f2;
+	margin:5px;
+	font-family:sans-serif;
+	font-size:100%;
+}
+
+#content {
+}
+
+
+#footer {
+	position:absolute;
+	bottom:0px; left:10px; right:10px;
+	padding:2px 0;
+	border-top:1px solid #f1f1f2;
+	font-family:monospace;
+	font-size:80%;
+	text-align:center;
+}
+
+#debug {
+	padding:2px;
+	background-color:#222222;
+	font-family:monospace;
+	font-size:80%;
+}
+
+
+.box {
+	margin:10px 5px;
+	padding:2px;
+}
+
+.border {
+	border:1px solid #cccccc;
+	border-radius:5px;
+}
+
+
+/* ===== Player ===== */
+.player {
+	background-color:#666666;
+}
+
+.player .status {
+	padding:5px 0 0 2px;
+	color:#750000;
+}
+
+.player.big .status {
+	text-align:center;
+	padding:10px;
+	font-size:150%;
+}
+
+.player .id {
+	font-size:200%;
+}
+
+.player.big {
+	width:90%;
+	margin:5% auto;
+}
+
+
+/* ===== Box: Info ===== */
+.player .box.info {
+	background-color:#000000;
+	color:#8cc5ff;
+	width:35%;
+	border-color:#8cc5ff;
+}
+
+.player.big .box.info {
+	width:95%;
+	margin:auto;
+}
+
+
+.player .box.info p {
+	margin:0;
+	padding:2px;
+}
+
+.player.big .box.info p {
+	font-size:275%;
+	text-align:center;
+}
+
+.player .box.info .label {
+	font-size:70%;
+	font-style:italic;
+	width:40px;
+	display:inline-block;
+}
+
+.player.big .box.info .label {
+	font-size:100%;
+	width:auto;
+	display:block;
+	text-align:left;
+}
+
+.player .box.info .title, .player .box.info .artist {
+	border-bottom:1px dotted #8cc5ff;
+}
+
+.player .box.outputs {
+	width:20%;
+}
+
+.player .box.outputs .output {
+	border:1px dotted #b5daff;
+	background-color:#666666;
+	padding:2px;
+	margin:0 4px 4px 0;
+	font-size:80%;
+	float:left;
+	display:inline-block;
+}
+
+.player .box.outputs .output.active {
+	border:1px solid #b5daff;
+	background-color:#a34241;
+}
+
+
+/* ===== Box: Controls ===== */
+.player .box.controls {
+	width:160px;
+}
+
+.player .box.controls button {
+	margin:2px 0;
+}
+
+.player .ctrl {
+	cursor:pointer;
+}
+
+.player .box.playlist {
+	/*width:20%;*/
+}
+
+.player .box.playlist select {
+	font-size:80%;
+}
+
+.player .box.playlist select option {
+	padding:2px;
+}
+
+.volumebar {
+	border:1px solid #8cc5ff;
+	border-radius:3px;
+    background-color:#577b9f;
+    color:#8cc5ff;
+	width:16px;
+	height:75px;
+	padding:0;
+}
+
+.volumebar .bar {
+	width:16px;
+	background-color:#000000;
+	border-radius:3px 3px 0 0;
+}
+
+vol_min {
+	border-radius:3px 3px 3px 3px;
+}
+
+.left { float:left; }
+.right { float:right; }
+.clear { clear:both; }
+
+
