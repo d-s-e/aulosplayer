@@ -156,7 +156,23 @@ body {
 }
 
 .player .box.playlist select option {
-	padding:2px;
+	background-color:#666666;
+	color:#f1f1f2;
+	padding:3px;
+}
+
+.player .box.playlist select optgroup option {
+	padding-left:10px;
+}
+
+.player .box.playlist select optgroup option:before {
+	content: "\2022\00a0";
+}
+
+.player .box.playlist select optgroup {
+	background-color:#000000;
+	color:#8cc5ff;
+	padding:0 5px;
 }
 
 .volumebar {

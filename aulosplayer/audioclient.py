@@ -9,21 +9,36 @@ class Audio:
         self.host = config["host"]
         self.port = config.get("port",6600)
         self.password = config.get("password")
-        self.single_list_mode = config.get("single_list_mode", False)
+        self.list_mode = config.get("list_mode", False)
         self.playlist_folder = config.get("playlist_folder", '/')
-        self.playlists = []
+        self.playlists = {}
         self.current = {}
         self.next_song = {}
         self.status = {}
         self.client = MPDClient()
         self.connected = self.mpd_connect()
         if self.connected:
-            if self.single_list_mode:
-                pls = self.client.lsinfo(self.playlist_folder)
-                for l in pls:
-                    p = l.get("playlist","")
-                    if len(p) > 0:
-                        self.playlists.append(p)
+            if self.list_mode:
+                if 'shared' in self.list_mode:
+                    pls = self.client.lsinfo(self.playlist_folder)
+                    for l in pls:
+                        p = l.get("playlist","")
+                        if len(p) > 0:
+                            try:
+                                self.playlists['shared'].append((p,'shd' + p))
+                            except KeyError:
+                                self.playlists['shared'] = []
+                                self.playlists['shared'].append((p,'shd_' + p))
+                if 'server' in self.list_mode:
+                    pls = self.client.lsinfo(self.playlist_folder)
+                    for l in pls:
+                        p = l.get("playlist","")
+                        if len(p) > 0:
+                            try:
+                                self.playlists['server'].append((p,'srv_' + p))
+                            except KeyError:
+                                self.playlists['server'] = []
+                                self.playlists['server'].append((p,'srv_' + p))
         self.update_data()
 
     def mpd_connect(self):

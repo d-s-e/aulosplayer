@@ -47,13 +47,24 @@
 		<button class="ctrl" id="ctrl_vdn{{ player.pid }}"><img src="/static/images/bt_volume_down.png" alt="VOL -"></button>
 	</div>
 	<div class="box playlist right">
-		{% if player.single_list_mode %}
+		{% if player.list_mode %}
 			<select>
-				{% for pls in player.playlists|sort %}
-					<option value="{{ pls }}">{{ pls }}</option>
-				{% endfor %}
+				{% if player.playlists['shared'] %}
+					<optgroup label="Shared Lists">
+						{% for pls in player.playlists['shared']|sort %}
+							<option value="{{ pls[1] }}">{{ pls[0] }}</option>
+						{% endfor %}
+					</optgroup>
+				{% endif %}
+				{% if player.playlists['server'] %}
+					<optgroup label="Server Lists">
+						{% for pls in player.playlists['server']|sort %}
+							<option value="{{ pls[1] }}">{{ pls[0] }}</option>
+						{% endfor %}
+					</optgroup>
+				{% endif %}
+			</select>
 		{% endif %}
-		</select>
 	</div>
 	<div class="clear"> </div>
 	{% if debug %}
