@@ -1,37 +1,12 @@
 <div class="box border player big" id="player{{ player.pid }}">
-	<div class="status">
-		{{ player.pid }}
-		{% if player.connected %}
-			{% if player.status.state == "play" %}
-				<img class="status_icon" src="/static/images/status_green.png" alt="." title="{{ player.host }}:{{player.port }}"/>
-			{% else %}
-				<img class="status_icon" src="/static/images/status_red.png" alt="." title="{{ player.host }}:{{player.port }}"/>
-			{% endif %}
-		{% else %}
-			<img class="status_icon" src="/static/images/status_grey.png" alt="" title="not connected"/>
-		{% endif %}
-		current song:
+	<div class="status playerstatus">
+		{{ macros.playerstatus(player) }}
 	</div>
-	<div class="box border info">
-		<p class="label">Title</p>
-		<p class="title">
-			<span class="text">{{ player.current.title|default("&mdash;"|safe) }}</span>
-		</p>
-		<p class="label">Artist</p>
-		<p class="artist">
-			<span class="text">{{ player.current.artist|default("&mdash;"|safe) }}</span>
-		</p>
-		<p class="label">Album</p>
-		<p class="album">
-			<span class="text">{{ player.current.album|default("&mdash;"|safe) }}</span>
-		</p>
+	<div class="box border info maininfo">
+		{{ macros.maininfo(player) }}
 	</div>
-	<div class="status">
-		<span class="label">next song:</span>
-		<span class="next_song">
-			{{ player.next_song.title|default("&mdash;"|safe) }} &ndash;
-			{{ player.next_song.artist|default("&mdash;"|safe) }}
-		</span>
+	<div class="status subinfo">
+		{{ macros.subinfo(player) }}
 	</div> 
 </div>
 <script type="text/javascript">

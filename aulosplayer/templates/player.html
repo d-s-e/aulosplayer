@@ -11,20 +11,11 @@
 			<img class="status_icon" src="/static/images/status_grey.png" alt="" title="not connected"/>
 		{% endif %}
 	</div>
+
 	<div class="box border info left">
-		<p class="title">
-			<span class="label">Title</span>
-			<span class="text">{{ player.current.title }}</span>
-		</p>
-		<p class="artist">
-			<span class="label">Artist</span>
-			<span class="text">{{ player.current.artist }}</span>
-		</p>
-		<p class="album">
-			<span class="label">Album</span>
-			<span class="text">{{ player.current.album }}</span>
-		</p>
-	</div> 
+        {{ macros.maininfo(player) }}
+	</div>
+
 	<div class="box outputs left">
 		{% for output in player.outputs %}
 			{% if output.outputenabled == "1" %}
@@ -38,16 +29,16 @@
 		<div class="bar"></div>
 	</div>
 	<div class="box controls right">
-		<button class="ctrl" id="ctrl_ply{{ player.pid }}"><img src="/static/images/bt_play.png" alt="PLY"></button>
+		<button class="ctrl" id="ctrl_ply{{ player.pid }}"><img src="/static/images/bt_play.png" alt="PLY"/></button>
 		<button class="ctrl" id="ctrl_pse{{ player.pid }}"><img src="/static/images/bt_pause.png" alt="PSE"/></button>
 		<button class="ctrl" id="ctrl_vup{{ player.pid }}"><img src="/static/images/bt_volume_up.png" alt="VOL +"/></button>
 		<br/>
 		<button class="ctrl" id="ctrl_rew{{ player.pid }}"><img src="/static/images/bt_rewind.png" alt="REW"/></button>
 		<button class="ctrl" id="ctrl_fwd{{ player.pid }}"><img src="/static/images/bt_forward.png" alt="FWD"/></button>
-		<button class="ctrl" id="ctrl_vdn{{ player.pid }}"><img src="/static/images/bt_volume_down.png" alt="VOL -"></button>
+		<button class="ctrl" id="ctrl_vdn{{ player.pid }}"><img src="/static/images/bt_volume_down.png" alt="VOL -"/></button>
 	</div>
 	<div class="box playlist right">
-		{% if player.list_mode %}
+		{% if player.playlists %}
 			<select>
 				{% if player.playlists['shared'] %}
 					<optgroup label="Shared Lists">

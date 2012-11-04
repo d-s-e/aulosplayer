@@ -28,13 +28,19 @@ var Player = new Class({
 	initialize: function(options){
 		this.setOptions(options);
 		this._player = $('player' + this.options.pid);
+		this._playerstatusEl = this._player.getElements('.playerstatus');
+		this._maininfoEl = this._player.getElements('.maininfo');
+		this._subinfoEl = this._player.getElements('.subinfo');
 	},
 
 	update: function(values){
 		var cid = this.options.pid;
+
+/*
 		this._player.getElements('.title .text').set('html', values['current']['title']);
 		this._player.getElements('.artist .text').set('html', values['current']['artist']);
 		this._player.getElements('.album .text').set('html', values['current']['album']);
+*/
 		this._player.getElements('.volume').set('html', values['status']['volume'] || '0');
 		this._player.getElements('.volumebar .bar').setStyle('height', 100-Math.abs(values['status']['volume']) + '%' || '0');
 		if (values['status']['volume']<3)
@@ -58,22 +64,11 @@ var Player = new Class({
 			}
 		});
 
-		var next_song = this._player.getElements('.next_song')
-		if (next_song){
-			var next_song_title = values['next_song']['title'];
-			var next_song_artist = values['next_song']['artist'];
-			if (next_song_title){
-				if (next_song_artist){
-					next_song.set('html', next_song_artist + ' &ndash; ' + next_song_title);
-				}
-				else{
-					next_song.set('html', next_song_title);
-				}
-			}
-			else{
-				next_song.set('html', '&ndash;');
-			}
-		}
+		this._playerstatusEl.set('html', values['playerstatus']);
+		this._maininfoEl.set('html', values['maininfo']);
+		this._subinfoEl.set('html', values['subinfo']);
+
+
 	}
 });
 

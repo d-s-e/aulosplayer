@@ -1,0 +1,44 @@
+{% macro playerstatus(p) -%}
+	{{ p.pid }}
+	{% if p.connected %}
+		{% if p.status.state == "play" %}
+			<img class="status_icon" src="/static/images/status_green.png" alt="." title="{{ p.host }}:{{p.port }}"/>
+		{% else %}
+			<img class="status_icon" src="/static/images/status_red.png" alt="." title="{{ p.host }}:{{p.port }}"/>
+		{% endif %}
+	{% else %}
+		<img class="status_icon" src="/static/images/status_grey.png" alt="" title="not connected"/>
+	{% endif %}
+	currently playing:
+{%- endmacro %}
+
+{% macro maininfo(p) -%}
+	<p class="title">
+		<span class="label">Title</span>
+		<span class="text">{{ p.current.title|default("&mdash;"|safe) }}</span>
+	</p>
+	<p class="artist">
+		<span class="label">Artist</span>
+		<span class="text">{{ p.current.artist|default("&mdash;"|safe) }}</span>
+	</p>
+	<p class="album">
+		<span class="label">Album</span>
+		<span class="text">{{ p.current.album|default("&mdash;"|safe) }}</span>
+	</p>
+{%- endmacro %}
+
+{% macro subinfo(p) -%}
+	{% if p.current.name %}
+		<span class="label">Stream:</span>
+		<span class="text">
+			{{ p.current.name|safe }}
+		</span>
+	{% else %}
+		<span class="label">Next:</span>
+		<span class="text">
+			{{ p.next_song.title|default("&mdash;"|safe) }} &ndash;
+			{{ p.next_song.artist|default("&mdash;"|safe) }}
+		</span>
+	{% endif %}
+{%- endmacro %}
+

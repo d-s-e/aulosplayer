@@ -1,5 +1,5 @@
 from mpd import MPDClient, ConnectionError, CommandError
-from socket import error as SocketError
+import socket
 
 _VOLUME_STEP = 5
 
@@ -15,6 +15,7 @@ class Audio:
         self.current = {}
         self.next_song = {}
         self.status = {}
+        self.outputs = {}
         self.client = MPDClient()
         self.connected = self.mpd_connect()
         if self.connected:
@@ -44,7 +45,7 @@ class Audio:
     def mpd_connect(self):
         try:
         	self.client.connect(self.host,self.port)
-        except SocketError:
+        except socket.error:
             return False
         return True
 
@@ -68,6 +69,7 @@ class Audio:
                 except CommandError:
                     self.next_song = {}
                 self._decode_utf8(self.current)
+                self._decode_utf8(self.next_song)
                 self.outputs = self.client.outputs()
             except ConnectionError:
                 self.mpd_reconnect()

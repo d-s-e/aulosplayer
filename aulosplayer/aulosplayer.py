@@ -1,6 +1,6 @@
 import json
 from flask import Flask
-from flask import render_template, request, jsonify
+from flask import render_template, get_template_attribute, request, jsonify
 
 from audioclient import Audio
 
@@ -38,18 +38,23 @@ def view(pid):
 @app.route('/ajax/<method>/', methods=['POST'])
 def ajax_get(method):
     resp = {}
-    if method == 'update':
-        for p in audiolist:
-            if str(p.pid) in request.json:
-                p.update_data()
-                resp[p.pid] = dict([('current',p.current),('status',p.status),('outputs',p.outputs),('next_song',p.next_song)])
-    elif method == 'ctrl':
-        for p in audiolist:
-            if str(p.pid) in request.json:
+    for p in audiolist:
+        if str(p.pid) in request.json:
+            if method == 'ctrl':
                 action = request.json[str(p.pid)]
                 p.ctrl(action)
-                p.update_data()
-                resp[p.pid] = dict([('current',p.current),('status',p.status),('outputs',p.outputs)])
+            p.update_data()
+            resp[p.pid] = {}
+            resp[p.pid]['current'] = p.current
+            resp[p.pid]['status'] = p.status
+            resp[p.pid]['outputs'] = p.outputs
+            resp[p.pid]['next_song'] = p.next_song
+            playerstatus = get_template_attribute('player_macros.html', 'playerstatus')
+            resp[p.pid]['playerstatus'] = playerstatus(p)
+            maininfo = get_template_attribute('player_macros.html', 'maininfo')
+            resp[p.pid]['maininfo'] = maininfo(p)
+            subinfo = get_template_attribute('player_macros.html', 'subinfo')
+            resp[p.pid]['subinfo'] = subinfo(p)
     return jsonify(resp)
 
 

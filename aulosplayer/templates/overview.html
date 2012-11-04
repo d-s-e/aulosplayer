@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% import 'player_macros.html' as macros with context %}
 {% for player in players %}
 	{% include 'player.html' %}
 {% endfor %}
