@@ -1,0 +1,22 @@
+{
+    [
+        {
+            "id": 1,
+            "name": "foo",
+            "file": "6600",
+            "enabled": false
+        },
+        {
+            "id": 2,
+            "name": "bar",
+            "file": "6600",
+            "enabled": false
+        },
+        {
+            "id": 3,
+            "name": "baz",
+            "file": "6600",
+            "enabled": false
+        }
+    ]
+}
