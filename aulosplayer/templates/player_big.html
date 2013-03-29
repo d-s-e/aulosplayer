@@ -1,6 +1,9 @@
 <div class="box border player big" id="player{{ player.pid }}">
-	<div class="status playerstatus">
-		{{ macros.playerstatus(player) }}
+	<div class="status">
+		<span class="playerstatus">
+			{{ macros.playerstatus(player) }}
+		</span>
+		currently playing:
 	</div>
 	<div class="box border info maininfo">
 		{{ macros.maininfo(player) }}

@@ -1,21 +1,12 @@
 <div class="box border player" id="player{{ player.pid }}">
-	<div class="status left">
-		<div class="id">{{ player.pid }}</div>
-		{% if player.connected %}
-			{% if player.status.state == "play" %}
-				<img class="status_icon" src="/static/images/status_green.png" alt="." title="{{ player.host }}:{{player.port }}"/>
-			{% else %}
-				<img class="status_icon" src="/static/images/status_red.png" alt="." title="{{ player.host }}:{{player.port }}"/>
-			{% endif %}
-		{% else %}
-			<img class="status_icon" src="/static/images/status_grey.png" alt="" title="not connected"/>
-		{% endif %}
-	</div>
-
-	<div class="box border info left">
-		{{ macros.maininfo(player) }}
+	<div class="status left playerstatus">
+		{{ macros.playerstatus(player) }}
 	</div>
 	
+	<div class="box border info left maininfo">
+		{{ macros.maininfo(player) }}
+	</div>
+
 	<div class="box outputs left">
 		{% for output in player.outputs %}
 			{% if output.outputenabled == "1" %}

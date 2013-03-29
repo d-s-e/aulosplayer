@@ -51,6 +51,11 @@ body {
 	background-color:#666666;
 }
 
+.player.big .id {
+	font-size:150%;
+	display:inline;
+}
+
 .player.big .status {
 	text-align:center;
 	padding:10px;

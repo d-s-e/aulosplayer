@@ -1,5 +1,5 @@
 {% macro playerstatus(p) -%}
-	{{ p.pid }}
+	<div class="id">{{ p.pid }}</div>
 	{% if p.connected %}
 		{% if p.status.state == "play" %}
 			<img class="status_icon" src="/static/images/status_green.png" alt="." title="{{ p.host }}:{{p.port }}"/>
@@ -9,7 +9,6 @@
 	{% else %}
 		<img class="status_icon" src="/static/images/status_grey.png" alt="" title="not connected"/>
 	{% endif %}
-	currently playing:
 {%- endmacro %}
 
 {% macro maininfo(p) -%}
