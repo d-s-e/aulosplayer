@@ -108,9 +108,9 @@ class Audio:
                             self.client.enableoutput(co)
 
     def _decode_utf8(self,dict):
-        dict['title'] = dict.get('title','unknown title').decode('utf-8')
-        dict['artist'] = dict.get('artist','unknown artist').decode('utf-8')
-        dict['album'] = dict.get('album','unknown album').decode('utf-8')
-        dict['file'] = dict.get('file','unknown file').decode('utf-8')
+        dict['title'] = dict.get('title', '').decode('utf-8') or u'\u2014'
+        dict['artist'] = dict.get('artist', '').decode('utf-8') or u'\u2014'
+        dict['album'] = dict.get('album', '').decode('utf-8') or u'\u2014'
+        dict['file'] = dict.get('file', '').decode('utf-8') or u'\u2014'
 
 
