@@ -28,7 +28,7 @@ body {
 }
 
 #debug {
-	padding:2px;
+	padding:3px;
 	background-color:#222222;
 	font-family:monospace;
 	font-size:80%;
@@ -51,19 +51,29 @@ body {
 	background-color:#666666;
 }
 
-.player .status {
-	padding:5px 0 0 2px;
-	color:#750000;
-}
-
 .player.big .status {
 	text-align:center;
 	padding:10px;
 	font-size:150%;
 }
 
+.player.big .status.subinfo {
+	padding:5px;
+	font-size:150%;
+}
+
+.player .status {
+	padding:5px 0 0 2px;
+	color:#750000;
+}
+
+.player .status.subinfo {
+	padding:0 5px 2px 5px;
+	font-size:90%;
+}
+
 .player .status.subinfo .text {
-	color:#151515;
+	color:#121921;
 }
 
 .player .id {

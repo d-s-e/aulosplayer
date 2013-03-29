@@ -15,7 +15,7 @@
 	<div class="box border info left">
         {{ macros.maininfo(player) }}
 	</div>
-
+	
 	<div class="box outputs left">
 		{% for output in player.outputs %}
 			{% if output.outputenabled == "1" %}
@@ -58,6 +58,11 @@
 		{% endif %}
 	</div>
 	<div class="clear"> </div>
+
+	<div class="status subinfo">
+		{{ macros.subinfo(player) }}
+	</div> 
+
 	{% if debug %}
 		<div id="debug">
 			host: {{ player.host }}:{{player.port }} |
