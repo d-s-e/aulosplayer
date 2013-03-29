@@ -36,39 +36,37 @@ var Player = new Class({
 	update: function(values){
 		var cid = this.options.pid;
 
-/*
-		this._player.getElements('.title .text').set('html', values['current']['title']);
-		this._player.getElements('.artist .text').set('html', values['current']['artist']);
-		this._player.getElements('.album .text').set('html', values['current']['album']);
-*/
 		this._player.getElements('.volume').set('html', values['status']['volume'] || '0');
 		this._player.getElements('.volumebar .bar').setStyle('height', 100-Math.abs(values['status']['volume']) + '%' || '0');
 		if (values['status']['volume']<3)
 			this._player.getElements('.volumebar .bar').addClass('vol_min');
 		else
 			this._player.getElements('.volumebar .bar').removeClass('vol_min');
-		play_state = values['status']['state'];
+
+		var play_state = values['status']['state'];
 		if (play_state == 'play')
 			this._player.getElements('.status_icon').set('src','/static/images/status_green.png');
 		else if (play_state == 'stop')
 			this._player.getElements('.status_icon').set('src','/static/images/status_red.png');
 		else if (play_state == 'pause')
 			this._player.getElements('.status_icon').set('src','/static/images/status_red.png');
-		values['outputs'].each(function(o){
-			e = $('ctrl_o' + o['outputid'].zeroPad(2) + cid);
-			if (e){
-				if (o['outputenabled'] == 1)
-					e.addClass('active');
-				else
-					e.removeClass('active');
-			}
-		});
+
+		var outputs = values['outputs'];
+		if (outputs.length > 0) {
+			values['outputs'].each(function(o){
+				e = $('ctrl_o' + o['outputid'].zeroPad(2) + cid);
+				if (e){
+					if (o['outputenabled'] == 1)
+						e.addClass('active');
+					else
+						e.removeClass('active');
+				}
+			});
+		}
 
 		this._playerstatusEl.set('html', values['playerstatus']);
 		this._maininfoEl.set('html', values['maininfo']);
 		this._subinfoEl.set('html', values['subinfo']);
-
-
 	}
 });
 
