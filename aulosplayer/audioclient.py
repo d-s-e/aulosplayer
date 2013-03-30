@@ -1,13 +1,15 @@
+"""module to access and manage a single mpd instance"""
 from mpd import MPDClient, ConnectionError, CommandError
 import socket
 
 _VOLUME_STEP = 5
 
 class Audio:
+    """class representing a single player connected to one mpd instance"""
     def __init__(self, config):
         self.pid = config["id"]       
         self.host = config["host"]
-        self.port = config.get("port",6600)
+        self.port = config.get("port", 6600)
         self.password = config.get("password")
         self.list_mode = config.get("list_mode", False)
         self.playlist_folder = config.get("playlist_folder", '/')
@@ -21,39 +23,46 @@ class Audio:
         if self.connected:
             if self.list_mode:
                 if 'shared' in self.list_mode:
-                    pls = self.client.lsinfo(self.playlist_folder)
-                    for l in pls:
-                        p = l.get("playlist","")
-                        if len(p) > 0:
+                    playlists = self.client.lsinfo(self.playlist_folder)
+                    for pls in playlists:
+                        plsid = pls.get("playlist","")
+                        if len(plsid) > 0:
                             try:
-                                self.playlists['shared'].append((p,'shd' + p))
+                                self.playlists['shared'].append((plsid,
+                                                                 'shd'+plsid))
                             except KeyError:
                                 self.playlists['shared'] = []
-                                self.playlists['shared'].append((p,'shd_' + p))
+                                self.playlists['shared'].append((plsid,
+                                                                 'shd_'+plsid))
                 if 'server' in self.list_mode:
-                    pls = self.client.lsinfo(self.playlist_folder)
-                    for l in pls:
-                        p = l.get("playlist","")
-                        if len(p) > 0:
+                    playlists = self.client.lsinfo(self.playlist_folder)
+                    for pls in playlists:
+                        plsid = pls.get("playlist","")
+                        if len(plsid) > 0:
                             try:
-                                self.playlists['server'].append((p,'srv_' + p))
+                                self.playlists['server'].append((plsid,
+                                                                 'srv_'+plsid))
                             except KeyError:
                                 self.playlists['server'] = []
-                                self.playlists['server'].append((p,'srv_' + p))
+                                self.playlists['server'].append((plsid,
+                                                                 'srv_'+plsid))
         self.update_data()
 
     def mpd_connect(self):
+        """connect to mpd service"""
         try:
-        	self.client.connect(self.host,self.port)
+            self.client.connect(self.host, self.port)
         except socket.error:
             return False
         return True
 
     def mpd_reconnect(self):
+        """reconnect to mpd service"""
         self.client.disconnect()
         self.connected = self.mpd_connect()
 
     def update_data(self):
+        """update data from mpd service"""
         if self.connected:
             try:
                 status = self.client.status()
@@ -63,18 +72,19 @@ class Audio:
                     ('volume',status.get('volume', 0))
                 ])
                 self.current = self.client.currentsong()
-                next_song_id = status.get('nextsong',-1)
+                next_song_id = status.get('nextsong', -1)
                 try:
                     self.next_song = self.client.playlistinfo(next_song_id)[0]
                 except CommandError:
                     self.next_song = {}
-                self._decode_utf8(self.current)
-                self._decode_utf8(self.next_song)
+                _decode_utf8(self.current)
+                _decode_utf8(self.next_song)
                 self.outputs = self.client.outputs()
             except ConnectionError:
                 self.mpd_reconnect()
 
     def ctrl(self, action):
+        """execute a mpd command"""
         if self.connected:
             if action == 'ply':
                 self.client.play()
@@ -91,7 +101,7 @@ class Audio:
                 status = self.client.status()
                 volume = int(status.get('volume', 0))
                 try:
-                    self.client.setvol(max(volume - _VOLUME_STEP, 0))            
+                    self.client.setvol(max(volume - _VOLUME_STEP, 0))
                 except CommandError:
                     pass
             elif action == 'rew':
@@ -99,18 +109,20 @@ class Audio:
             elif action == 'fwd':
                 self.client.next()
             elif action[:1] == 'o':
-                co = int(action[1:])
-                for o in self.outputs:
-                    if int(o['outputid']) == co:
-                        if o['outputenabled'] == '1':
-                            self.client.disableoutput(co)
+                outid = int(action[1:])
+                for output in self.outputs:
+                    if int(output['outputid']) == outid:
+                        if output['outputenabled'] == '1':
+                            self.client.disableoutput(outid)
                         else:
-                            self.client.enableoutput(co)
+                            self.client.enableoutput(outid)
 
-    def _decode_utf8(self,dict):
-        dict['title'] = dict.get('title', '').decode('utf-8') or u'\u2014'
-        dict['artist'] = dict.get('artist', '').decode('utf-8') or u'\u2014'
-        dict['album'] = dict.get('album', '').decode('utf-8') or u'\u2014'
-        dict['file'] = dict.get('file', '').decode('utf-8') or u'\u2014'
+
+def _decode_utf8(data):
+    """decode utf-8 encoded data from mpd and set defaults for empty fields"""
+    data['title'] = data.get('title', '').decode('utf-8') or u'\u2014'
+    data['artist'] = data.get('artist', '').decode('utf-8') or u'\u2014'
+    data['album'] = data.get('album', '').decode('utf-8') or u'\u2014'
+    data['file'] = data.get('file', '').decode('utf-8') or u'\u2014'
 
 

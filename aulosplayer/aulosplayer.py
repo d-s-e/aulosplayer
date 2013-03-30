@@ -1,71 +1,85 @@
+"""aulosplayer main module"""
 import json
 from flask import Flask
 from flask import render_template, get_template_attribute, request, jsonify
 
 from audioclient import Audio
 
-app = Flask(__name__)
-audiolist = []
 
-app.debug = True
+DEBUG = True
 
 
-@app.route('/')
+_app = Flask(__name__)
+_audiolist = []
+
+
+@_app.route('/')
 def overview():
+    """display overview page with multiple players"""
     debug = request.args.get('debug', False)
-    for p in audiolist:
-        p.update_data()
-    return render_template('overview.html', players = audiolist, main_title = 'Overview', debug = debug)
+    for player in _audiolist:
+        player.update_data()
+    return render_template('overview.html', players = _audiolist,
+                           main_title = 'Overview', debug = debug)
 
 
-@app.route('/about')
+@_app.route('/about')
 def about():
+    """display program information"""
     return render_template('about.html')
 
 
-@app.route('/view/', defaults={'pid': 0})
-@app.route('/view/<int:pid>')
+@_app.route('/view/', defaults={'pid': 0})
+@_app.route('/view/<int:pid>')
 def view(pid):
-    for p in audiolist:
-        p.update_data()
-        if p.pid == pid:
-            return render_template('view.html', player = p, main_title = p.pid)
-            break
+    """display big info for one player"""
+    for player in _audiolist:
+        player.update_data()
+        if player.pid == pid:
+            return render_template('view.html', player = player,
+                                   main_title = player.pid)
     else:
-        return render_template('view_all.html', players = audiolist)
+        return render_template('view_all.html', players = _audiolist)
 
 
-@app.route('/ajax/<method>/', methods=['POST'])
+@_app.route('/ajax/<method>/', methods=['POST'])
 def ajax_get(method):
+    """handle ajax requests"""
     resp = {}
-    for p in audiolist:
-        if str(p.pid) in request.json:
+    for player in _audiolist:
+        if str(player.pid) in request.json:
             if method == 'ctrl':
-                action = request.json[str(p.pid)]
-                p.ctrl(action)
-            p.update_data()
-            resp[p.pid] = {}
-            resp[p.pid]['current'] = p.current
-            resp[p.pid]['status'] = p.status
-            resp[p.pid]['outputs'] = p.outputs
-            resp[p.pid]['next_song'] = p.next_song
-            playerstatus = get_template_attribute('player_macros.html', 'playerstatus')
-            resp[p.pid]['playerstatus'] = playerstatus(p)
-            maininfo = get_template_attribute('player_macros.html', 'maininfo')
-            resp[p.pid]['maininfo'] = maininfo(p)
-            subinfo = get_template_attribute('player_macros.html', 'subinfo')
-            resp[p.pid]['subinfo'] = subinfo(p)
+                action = request.json[str(player.pid)]
+                player.ctrl(action)
+            player.update_data()
+            resp[player.pid] = {}
+            resp[player.pid]['current'] = player.current
+            resp[player.pid]['status'] = player.status
+            resp[player.pid]['outputs'] = player.outputs
+            resp[player.pid]['next_song'] = player.next_song
+            playerstatus = get_template_attribute('player_macros.html',
+                                          'playerstatus')
+            resp[player.pid]['playerstatus'] = playerstatus(player)
+            maininfo = get_template_attribute('player_macros.html',
+                                              'maininfo')
+            resp[player.pid]['maininfo'] = maininfo(player)
+            subinfo = get_template_attribute('player_macros.html',
+                                             'subinfo')
+            resp[player.pid]['subinfo'] = subinfo(player)
     return jsonify(resp)
 
 
-def read_config():
-    return json.load(open("config/players.json", "r"))
+def main(configfile):
+    """init and start aulosplayer"""
+    config = json.load(open(configfile, "r"))
+    for audiocfg in config["audio"]:
+        if audiocfg['enabled']:
+            _audiolist.append(Audio(audiocfg))
+    _app.debug = DEBUG
+    _app.run(host = config["general"]["host"],
+            port = config["general"]["port"])
 
 
 if __name__ == '__main__':
-    cfg = read_config()
-    for a in cfg["audio"]:
-        if a['enabled']:
-            audiolist.append(Audio(a))
-    app.run(host = cfg["general"]["host"], port = cfg["general"]["port"])
+    main("config/players.json")
 
