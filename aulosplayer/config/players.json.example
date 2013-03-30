@@ -6,12 +6,14 @@
     "audio": [
         {
             "id": 1,
+			"name": "Player 1",
             "host": "192.0.2.1",
             "port": 6600,
             "enabled": false
         },
         {
             "id": 2,
+			"name": "Player 2",
             "host": "192.0.2.2",
             "port": 6600,
             "enabled": false,
@@ -19,6 +21,7 @@
         },
         {
             "id": 3,
+			"name": "Player 3",
             "host": "localhost",
             "port": 6600,
             "enabled": true,

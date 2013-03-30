@@ -8,6 +8,7 @@ class Audio:
     """class representing a single player connected to one mpd instance"""
     def __init__(self, config):
         self.pid = config["id"]       
+        self.name = config.get("name", "")
         self.host = config["host"]
         self.port = config.get("port", 6600)
         self.password = config.get("password")

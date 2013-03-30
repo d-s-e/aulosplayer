@@ -56,6 +56,7 @@
 
 	{% if debug %}
 		<div id="debug">
+			{{ player.name }} |
 			host: {{ player.host }}:{{player.port }} |
 			volume: <span class="volume">{{ player.status.volume | default('0') }}</span>
 		</div>
