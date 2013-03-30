@@ -76,7 +76,7 @@ class Audio:
                 next_song_id = status.get('nextsong', -1)
                 try:
                     self.next_song = self.client.playlistinfo(next_song_id)[0]
-                except CommandError:
+                except (CommandError, IndexError):
                     self.next_song = {}
                 _decode_utf8(self.current)
                 _decode_utf8(self.next_song)
