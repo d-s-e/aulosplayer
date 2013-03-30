@@ -2,4 +2,6 @@
 *.swp
 *.bak
 *.komodoproject
+aulosplayer/config/players.json
+aulosplayer/config/playlists.json
 
