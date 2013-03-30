@@ -80,8 +80,9 @@ function update_players(){
 }
 
 function ctrl_event(ev){
-	evid = ev.target.id;
-	req_ctrl.send('{"' + evid.substr(8) + '":"' + evid.substr(5,3) + '"}');
+	var evid = ev.event.currentTarget.id;
+	var cmdstr = '{"' + evid.substr(8) + '":"' + evid.substr(5,3) + '"}';
+	req_ctrl.send(cmdstr);
 }
 
 function success_cb(response){
