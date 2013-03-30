@@ -1,8 +1,8 @@
-## aulos README
+## aulosplayer README
 
-aulos is a web application powered by flask, that provides a status and control frontend to manage multiple MPD servers.
+aulosplayer is a web application powered by flask, that provides a status and control frontend to manage multiple MPD servers.
 
-**aulos is ALPHA software!**
+**aulosplayer is ALPHA software!**
 
 
 ### Dependencies (Debian-Packages):
