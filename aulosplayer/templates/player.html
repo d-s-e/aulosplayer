@@ -9,10 +9,12 @@
 
 	<div class="box outputs left">
 		{% for output in player.outputs %}
-			{% if output.outputenabled == "1" %}
-				<div class="output ctrl active" id="ctrl_o{{ output.outputid.zfill(2) }}{{ player.pid }}">{{ output.outputname }}</div>
-			{% else %}
-				<div class="output ctrl" id="ctrl_o{{ output.outputid.zfill(2) }}{{ player.pid }}">{{ output.outputname }}</div>
+			{% if output.outputname != "dummy" %}
+				{% if output.outputenabled == "1" %}
+					<div class="output ctrl active" id="ctrl_o{{ output.outputid.zfill(2) }}{{ player.pid }}">{{ output.outputname }}</div>
+				{% else %}
+					<div class="output ctrl" id="ctrl_o{{ output.outputid.zfill(2) }}{{ player.pid }}">{{ output.outputname }}</div>
+				{% endif %}
 			{% endif %}
 		{% endfor %}
 	</div>
